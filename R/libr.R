@@ -1,0 +1,12 @@
+suppressPackageStartupMessages({
+  library(car)
+  library(dlookr)
+  library(dbplyr)
+  library(dplyr)
+  library(GGally)
+  library(ggplot2)
+  library(lubridate)
+  library(multcomp)
+  library(patchwork)
+  library(stringr)
+})

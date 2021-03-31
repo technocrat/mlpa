@@ -1,0 +1,49 @@
+Field,Type,Description
+city,varchar(25), Location of mortgaged property
+cltv,"decimal(10,0)", Combined loan-to-value ration
+ctapeno,"decimal(10,0)", Loan identifier
+deal,varchar(25), Transaction identifier
+down,int(11), Number of months delinquent
+dti,"decimal(10,0)", Back-end debt-to-income ration
+dtype,varchar(25), Documentation type
+ebal,"decimal(10,0)", Securitized principal balance
+fico,"decimal(10,0)", Credit score
+fpd,date, First Payment Date
+gainloss,"decimal(10,0)", Gain or loss on sale
+grade,varchar(5), Credit grPreade
+irate,"decimal(10,0)", Interest rate
+issuer,varchar(10), Sponsor
+lat,"decimal(10,0)", Latitude
+lien,int(11), Lien position
+liq,"decimal(10,0)", Liquidation proceeds
+lng,"decimal(10,0)", Longitude
+lstatus,int(11), Loan status
+ltype,varchar(25), Loan type
+margin,"decimal(10,0)", Margin over index
+metro,varchar(25), Metropolitan area
+nrate,"decimal(10,0)", Note rate
+obal,"decimal(10,0)", Original balance
+odate,date, Origination date
+oltv,"decimal(10,0)", Original loan-to-balance ratio
+orate,"decimal(10,0)", Original interest rate
+oterm,int(11), Original term
+payments,int(11), Number of payments
+pmiflag,int(11), Private mortgage insurance
+pocode,int(11), Payoff code
+pod,date, Payoff date
+ppp,int(11), Prepayment code
+ptd,date, Paid through date
+purpose,varchar(25), Loan purpose
+remit,"decimal(10,0)", Amount sent to securitization
+sbal,"decimal(10,0)", Scheduled balance
+servno,"decimal(10,0)", Seriver's tape number
+sint,"decimal(10,0)", Scheduled interest
+sprin,"decimal(10,0)", Scheduled principal
+spymt,"decimal(10,0)", Scheduled payment
+st,varchar(4), State
+zip,int(11), Postal code
+otype,varchar(25), Occupancy type
+rdate,date, Roll date
+ptype,varchar(15), Property type
+dptd,int(7), Binary representation of delinquencies at ptd
+dfpd,int(7), Binary representation of delinquencies at fpd

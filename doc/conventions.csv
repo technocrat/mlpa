@@ -1,0 +1,33 @@
+symbol,default
+137, a seed argument
+a, a temporary object
+b, a temporary object
+c, prohibited symbol
+d, a deal dataframe or tibble
+dte, a dataframe
+e, anything
+f, a function
+g, an inner function
+h, an inner function
+hs, a hash
+i, an iterator
+j, an iterator
+k, an iterator
+l, a list
+m, a matrix
+n, a count
+o, an output object
+q, a queue
+r, a rep
+s, a sample
+sq, a sequence
+ss, a subset
+t, prohibited symbol
+tsib, a tsibble
+tib, a tibble
+u, an unknown value placeholder
+v, a vector
+w, an argument
+x, an argument
+y, an argument
+z, an argument

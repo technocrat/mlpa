@@ -1,0 +1,165 @@
+---
+title: "Statification tables"
+author: "Richard Careaga"
+date: "2021-03-31"
+output: html_document
+---
+
+<style type="text/css">
+  body{
+  font-size: 18pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source(here::here("R/functions.R"))
+
+```
+
+# Stratification
+
+## Source data from MySQL
+
+* Database: dlf
+* Table: y7
+* 125Kx48
+* credentials via ~/.my.cnf
+
+# Naming conventions
+
+```{r}
+knitr::kable(readr::read_csv(here::here("doc/conventions.csv")))
+
+```
+
+
+## Get field dictionary from SQL
+
+    kniletr::kable(get_fields("y7"))
+
+Saved to csv, and edited manually to add descriptions
+
+```{r}
+knitr::kable(readr::read_csv(here::here("doc/codebook.csv")))
+```
+
+## Bring in y7 table subset as d for a single deal, LBMLT 2006-1
+
+```{r}
+d <- query(1)
+```
+
+## DescTools
+
+```{r}
+DescTools::Desc(d$cltv)
+DescTools::Desc(d$down)
+DescTools::Desc(d$dti)
+DescTools::Desc(d$dtype)
+DescTools::Desc(d$fico)
+DescTools::Desc(d$grade)
+DescTools::Desc(d$ltype)
+DescTools::Desc(d$margin)
+DescTools::Desc(d$nrate)
+DescTools::Desc(d$ebal)
+DescTools::Desc(d$orate)
+DescTools::Desc(d$otype)
+DescTools::Desc(d$ptype)
+
+
+
+
+
+
+
+```
+
+## Selected variables
+
+```{r}
+# tab1_cat  <- tableone::CreateTableOne(data = d[c(catVars)])
+# tab1_cont <- tableone::CreateTableOne(data = d[c(contVars)])
+# tab1_int  <- tableone::CreateTableOne(data = d[c(intVars)])
+# print(tab1_cat, showAllLevels = TRUE, formatOptions = list(big.mark = ","))
+# tab1_cat
+# tab1_cont
+# tab1_int
+```
+
+## Classify and select variables for stratification tables
+
+One-time, with saved result. For use in {tableone}
+
+    codebook <- readr::read_csv(here::here("doc/codebook"))
+    var_num  <- "decimal"
+    var_cat  <- "varchar"
+    var_dte  <- "date"
+    var_int  <- "int"
+    omit_num <- c("lat","lng","ctapeno","gainloss","liq","remit","sbal","servno","sint","sprin","spymt")
+    omit_int <- c("zip","ppp","dptd","dfpd")
+    omit_cat <- c("city","deal","issuer")
+    omit_dte <- NULL # fix pod/rdate
+    contVars <- colnames(d[,stringr::str_detect(codebook$Type,var_num)])
+    intVars  <- colnames(d[,stringr::str_detect(codebook$Type,var_int)])
+    dteVars  <- colnames(d[,stringr::str_detect(codebook$Type,var_dte)])
+    catVars  <- colnames(d[,stringr::str_detect(codebook$Type,var_chr)])
+    contVars <- setdiff(contVars,omit_num)
+    intVars  <- setdiff(intVars, omit_int)
+    dteVars  <- setdiff(dteVars, omit_dte)
+    catVars  <- setdiff(catVars,omit_cat)
+    VarsList  <- list(contVars = contVars,dteVars = dteVars,intVars = intVars,catVars = catVars)
+    saveRDS(VarsList, file = here::here("obj/VarsList.Rds"))
+
+## Tableone stratifications
+
+### Documentation type
+
+```{r}
+VarsList <- readRDS(here::here("obj/VarsList.Rds"))
+
+summary(stratify_cont(VarsList,d,"dtype"))
+summary(stratify_cat(VarsList,d,"dtype"))
+summary(stratify_int(VarsList,d,"dtype"))
+#summary(stratify_dte(VarsList,d,"dtype"))
+```
+
+### Grade 
+
+```{r}
+summary(stratify_cont(VarsList,d,"grade"))
+summary(stratify_cat(VarsList,d,"grade"))
+summary(stratify_int(VarsList,d,"grade"))
+```
+
+### Loan type
+
+```{r}
+summary(stratify_cont(VarsList,d,"ltype"))
+summary(stratify_cat(VarsList,d,"ltype"))
+summary(stratify_int(VarsList,d,"ltype"))
+```
+
+### Purpose
+
+```{r}
+summary(stratify_cont(VarsList,d,"purpose"))
+summary(stratify_cat(VarsList,d,"purpose"))
+summary(stratify_int(VarsList,d,"purpose"))
+```
+
+### Occupancy type
+
+```{r}
+summary(stratify_cont(VarsList,d,"otype"))
+summary(stratify_cat(VarsList,d,"otype"))
+summary(stratify_int(VarsList,d,"otype"))
+```
+
+### Property type
+
+```{r}
+summary(stratify_cont(VarsList,d,"ptype"))
+summary(stratify_cat(VarsList,d,"ptype"))
+summary(stratify_int(VarsList,d,"ptype"))
+```
