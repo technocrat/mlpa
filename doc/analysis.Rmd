@@ -1,0 +1,42 @@
+---
+title: "Analysis"
+author: "Richard Careaga"
+date: 2021-07-30
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Problem statement
+
+Estimate log odds of default within 12 months of first payment date.
+
+$$f(x) = y$$
+
+## Objects
+
+### Notional objects
+
+* $objects,$ the set of all data objects
+* $sql,$ origination and performance database
+
+### Constant objects
+
+**None**
+
+# Data objects
+
+$x$, $n$ data frames
+$y,$ a data frame
+
+## Relationships among data objects and constant objects
+
+
+## Function objects
+
+$\mathrm{\ \gets function(x)}$
+
+## Construction

@@ -1,0 +1,174 @@
+---
+title: "Notes"
+author: "Richard Careaga"
+date: 2021-08-18
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source(here::here("R/func.R"))
+```
+
+# Source data from MySQL
+
+* Database: dlf
+* Table: y7
+* 125Kx48
+* credentials via ~/.my.cnf
+
+# Naming conventions
+
+```{r}
+knitr::kable(readr::read_csv(here::here("doc/conventions.csv")))
+```
+
+
+## Get field dictionary from SQL
+
+    knitr::kable(get_fields("y7"))
+
+Saved to csv, and edited manually to add descriptions
+
+```{r}
+knitr::kable(readr::read_csv(here::here("doc/codebook.csv")))
+```
+
+Collect selected variables for stratification tables, by type
+
+```{r}
+#   # tableone::CreateTableOne(colnames(x), strata = y, data = x)
+#   contTable = tableone::CreateContTable(vars = contVars, strata = y, data = x)
+#   catTable  = tableone::CreateCatTable(vars = catVars, strata = y, data = x)
+#   intTable  = tableone::CreateCatTable(vars = intVars, strata = y, data = x)
+#   dteTable =  tableone::CreateCatTable(vars = dteVars, strata = y, data = x)
+#   return(c(contTable,catTable,intTable,dteTable))
+# }
+# 
+# stratify(d,"dtype") -> o
+
+stratify_dte(query(1),"dtype") -> o
+
+
+```
+
+## Bring in y7 table subset as d
+
+```{r}
+d <- query(1)
+```
+
+
+tableone::CreateTableOne("fico",strata = "ltype", data = d6)
+
+dat <- d6 %>% dplyr::select(ltype, fico)
+dat <- dat %>% mutate(ltype = as.factor(ltype))
+
+p1 <- ggplot(dat) +
+  aes(x = ltype, y = fico, color = ltype) +
+  geom_jitter() +
+  theme(legend.position = "none") +
+  theme_minimal()
+
+p2 <- ggplot(dat) +
+  aes(x = ltype, y = fico, color = ltype) +
+  geom_boxplot() +
+  theme(legend.position = "none") +
+  theme_minimal()
+
+p3 <- ggplot(dat) +
+  aes(fico, fill = ltype) +
+  geom_dotplot(method = "histodot", binwidth = 1.5) +
+  theme(legend.position = "none") +
+  theme_minimal()
+
+res_aov <- aov(fico ~ ltype, data = dat)
+
+resids <- data.frame(.resid = res_aov$residuals)
+
+# histogram
+p4 <- ggplot(resids, aes(.resid)) +
+  geom_histogram(color = "black", fill = "grey") +
+  theme_minimal()
+
+p5 <- ggplot(resids, aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() +
+  theme_minimal()
+
+p4 + p5
+skewness(resids)
+kurtosis(resids)
+
+# resids are not normally distributed (and groups not necessarily
+# independent). Large n almost always non-normal. ANOVA assumptions
+# not satisfied
+
+shapiro.test(sample(res_aov$residuals,5000))
+
+leveneTest(fico ~ ltype, data = dat)
+
+aggregate(fico ~ ltype,
+          data = dat,
+          function(x) round(c(mean = mean(x), sd = sd(x)), 2)
+)
+
+
+group_by(dat, ltype) %>%
+  summarise(
+    mean = mean(fico, na.rm = TRUE),
+    sd = sd(fico, na.rm = TRUE)
+  )
+
+
+oneway.test(fico ~ ltype,
+            data = dat,
+            var.equal = TRUE # assuming equal variances
+)
+
+res_aov <- aov(fico ~ ltype,
+               data = dat
+)
+
+summary(res_aov)
+
+
+oneway.test(fico ~ ltype,
+            data = dat,
+            var.equal = FALSE # assuming unequal variances
+)
+
+post_test <- glht(res_aov,
+                  linfct = mcp(ltype = "Tukey")
+)
+
+summary(post_test)
+
+TukeyHSD(res_aov)
+
+plot(TukeyHSD(res_aov))
+
+post_test <- glht(res_aov,
+                  linfct = mcp(ltype = "Dunnett")
+)
+
+summary(post_test)
+
+par(mar = c(3, 8, 3, 3))
+plot(post_test)
+
+[Senate hearings](https://www.govinfo.gov/content/pkg/CHRG-111shrg57319/html/CHRG-111shrg57319.htm)
+
+[Class II-A1 balance](https://www.sec.gov/Archives/edgar/data/0001350315/000127727706000178/finallongbeach_20061.htm)504,957,000
+[85 II count and balance](https://www.sec.gov/Archives/edgar/data/0001350315/000127727706000178/finallongbeach_20061.htm) 4,235 $1,402,654,390.49
+
+As of 2007-06-01, pool balance was 1685747345
+COD pool balance 2442492000
+0.6901752
+
+Down 31% 0.3098248
+
+
+	
+
+

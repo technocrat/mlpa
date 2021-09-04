@@ -2,8 +2,8 @@ symbol,default
 137, a seed argument
 a, a temporary object
 b, a temporary object
-c, prohibited symbol
-d, a deal dataframe or tibble
+c, prohibited symbol, not used
+d, a dataframe or tibble
 dte, a dataframe
 e, anything
 f, a function
@@ -15,14 +15,16 @@ j, an iterator
 k, an iterator
 l, a list
 m, a matrix
+modal, a subset of a data frame filtered by mode of one or more variables
 n, a count
 o, an output object
 q, a queue
 r, a rep
 s, a sample
+skinny, a copy of a data frame with reduced variables or subsetted or both
 sq, a sequence
 ss, a subset
-t, prohibited symbol
+t, prohibited symbol, not used
 tsib, a tsibble
 tib, a tibble
 u, an unknown value placeholder

@@ -1,6 +1,6 @@
 # _targets.R
 library(targets)
-source("R/functions.R")
+source("R/func.R")
 options(tidyverse.quiet = TRUE)
 tar_option_set(packages = c("biglm", "tidyverse"))
 list(

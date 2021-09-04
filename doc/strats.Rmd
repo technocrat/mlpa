@@ -30,7 +30,7 @@ source(here::here("R/functions.R"))
 
 ```{r}
 knitr::kable(readr::read_csv(here::here("doc/conventions.csv")))
-
+source(here::here("R/libr.R"))
 ```
 
 
@@ -47,10 +47,12 @@ knitr::kable(readr::read_csv(here::here("doc/codebook.csv")))
 ## Bring in y7 table subset as d for a single deal, LBMLT 2006-1
 
 ```{r}
-d <- query(1)
+d <- query(1)# %>% filter
 ```
 
 ## DescTools
+
+
 
 ```{r}
 DescTools::Desc(d$cltv)
@@ -66,13 +68,6 @@ DescTools::Desc(d$ebal)
 DescTools::Desc(d$orate)
 DescTools::Desc(d$otype)
 DescTools::Desc(d$ptype)
-
-
-
-
-
-
-
 ```
 
 ## Selected variables
@@ -116,50 +111,50 @@ One-time, with saved result. For use in {tableone}
 ### Documentation type
 
 ```{r}
-VarsList <- readRDS(here::here("obj/VarsList.Rds"))
-
-summary(stratify_cont(VarsList,d,"dtype"))
-summary(stratify_cat(VarsList,d,"dtype"))
-summary(stratify_int(VarsList,d,"dtype"))
-#summary(stratify_dte(VarsList,d,"dtype"))
+# VarsList <- readRDS(here::here("obj/VarsList.Rds"))
+# 
+# summary(stratify_cont(VarsList,d,"dtype"))
+# summary(stratify_cat(VarsList,d,"dtype"))
+# summary(stratify_int(VarsList,d,"dtype"))
+# #summary(stratify_dte(VarsList,d,"dtype"))
 ```
 
-### Grade 
+### Grade
 
 ```{r}
-summary(stratify_cont(VarsList,d,"grade"))
-summary(stratify_cat(VarsList,d,"grade"))
-summary(stratify_int(VarsList,d,"grade"))
+# summary(stratify_cont(VarsList,d,"grade"))
+# summary(stratify_cat(VarsList,d,"grade"))
+# summary(stratify_int(VarsList,d,"grade"))
 ```
 
 ### Loan type
 
 ```{r}
-summary(stratify_cont(VarsList,d,"ltype"))
-summary(stratify_cat(VarsList,d,"ltype"))
-summary(stratify_int(VarsList,d,"ltype"))
-```
+# summary(stratify_cont(VarsList,d,"ltype"))
+# summary(stratify_cat(VarsList,d,"ltype"))
+# summary(stratify_int(VarsList,d,"ltype"))
+# ```
 
 ### Purpose
 
 ```{r}
-summary(stratify_cont(VarsList,d,"purpose"))
-summary(stratify_cat(VarsList,d,"purpose"))
-summary(stratify_int(VarsList,d,"purpose"))
+# summary(stratify_cont(VarsList,d,"purpose"))
+# summary(stratify_cat(VarsList,d,"purpose"))
+# summary(stratify_int(VarsList,d,"purpose"))
 ```
 
 ### Occupancy type
 
 ```{r}
-summary(stratify_cont(VarsList,d,"otype"))
-summary(stratify_cat(VarsList,d,"otype"))
-summary(stratify_int(VarsList,d,"otype"))
+# summary(stratify_cont(VarsList,d,"otype"))
+# summary(stratify_cat(VarsList,d,"otype"))
+# summary(stratify_int(VarsList,d,"otype"))
 ```
 
 ### Property type
 
 ```{r}
-summary(stratify_cont(VarsList,d,"ptype"))
-summary(stratify_cat(VarsList,d,"ptype"))
-summary(stratify_int(VarsList,d,"ptype"))
+# summary(stratify_cont(VarsList,d,"ptype"))
+# summary(stratify_cat(VarsList,d,"ptype"))
+# summary(stratify_int(VarsList,d,"ptype"))
 ```
