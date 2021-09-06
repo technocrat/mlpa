@@ -11,6 +11,16 @@ get_mode <- function(x) {
   uniq <- unique(x)
   uniq[which.max(tabulate(match(x, uniq)))]
 }
+
+mk_case <- function() {
+  case <- glue(skinny$metro[1],
+               space,as.character(skinny$otype[1]),
+               space,as.character(skinny$purpose[1]),
+               space,as.character(skinny$ptype[1]),
+               space,as.character(skinny$ltype[1],
+                                  nrow(skinny)))
+}
+
 mk_query_str = function(x,y) glue::glue( "SELECT * FROM x where deal = 'LBMLT 2006-",as.character(y),"'")
 
 

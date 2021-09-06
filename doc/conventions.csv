@@ -3,6 +3,7 @@ symbol,default
 a, a temporary object
 b, a temporary object
 c, prohibited symbol, not used
+ct, contingency table
 d, a dataframe or tibble
 dte, a dataframe
 e, anything
